@@ -12,12 +12,10 @@ A lightweight, extendable, dependency-free javascript HTML table plugin. Similar
 * Customisable layout
 * Customisable labels
 * Customise column rendering
-* Load data via AJAX requests
 * Export to common formats like `csv`, `txt` `json`, and `sql`
-* Import `csv` and `json` data
 * Control column visibility
 * Reorder or swap columns
-* moment.js integration for sorting columns with datetime strings
+
 * Extentable with custom plugins [See the wiki](https://github.com/Mobius1/Vanilla-DataTables/wiki/Plugins) (v1.6.0 and above)
 
 
