@@ -4,6 +4,9 @@
 
 A lightweight, extendable, dependency-free javascript HTML table plugin. Similar to jQuery DataTables, but without the dependencies.
 
+
+Example: https://codepen.io/Mobius1/pen/VadmKb
+
 ### Features
 
 * Sortable columns
