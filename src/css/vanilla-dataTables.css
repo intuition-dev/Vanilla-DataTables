@@ -26,4 +26,4 @@
 .dataTable-sorter::after{border-bottom:4px solid #000;border-top:4px solid transparent;top:0px;}
 .asc .dataTable-sorter::after,.desc .dataTable-sorter::before{opacity:0.6;}
 .dataTables-empty{text-align:center;}
-.dataTable-top::after,.dataTable-bottom::after{clear:both;content:" ";display:table;} /* mB v6.09.30 on 2019-10-05T15:07:37.451Z */
+.dataTable-top::after,.dataTable-bottom::after{clear:both;content:" ";display:table;} /* mB v6.09.30 on 2019-10-05T23:46:40.719Z */
