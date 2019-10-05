@@ -1,11 +1,44 @@
-# Vanilla-DataTables
+
+# vanillaDataTables
 
 ---
 
-A lightweight, extendable, dependency-free javascript HTML table plugin. Similar to jQuery DataTables, but without the dependencies.
+A lightweight, extendable, dependency-free javascript HTML table plugin. 
 
+
+Based on https://github.com/Mobius1/Vanilla-DataTables:
 
 Example: https://codepen.io/Mobius1/pen/VadmKb
+
+
+### Quick Start
+
+Then just initialise the plugin by either passing a reference to the table or a CSS3 selector string as the first parameter:
+
+```javascript
+var myTable = document.querySelector("#myTable");
+var dataTable = new DataTable(myTable);
+
+// or
+
+var dataTable = new DataTable("#myTable");
+
+```
+
+You can also pass the options object as the second paramater:
+
+```javascript
+var dataTable = new DataTable("#myTable", {
+	searchable: false,
+	fixedHeight: true,
+	...
+});
+```
+
+Don't forget to check the [wiki](https://github.com/Mobius1/Vanilla-DataTables/wiki) out for further help.
+
+---
+
 
 ### Features
 
@@ -36,34 +69,3 @@ Example: https://codepen.io/Mobius1/pen/VadmKb
 * [Stress Test](https://s.codepen.io/Mobius1/pen/qjLaKd)
 * [Programmatic Access](https://s.codepen.io/Mobius1/pen/rwGyJa)
 
----
-
-### Quick Start
-
-Then just initialise the plugin by either passing a reference to the table or a CSS3 selector string as the first parameter:
-
-```javascript
-var myTable = document.querySelector("#myTable");
-var dataTable = new DataTable(myTable);
-
-// or
-
-var dataTable = new DataTable("#myTable");
-
-```
-
-You can also pass the options object as the second paramater:
-
-```javascript
-var dataTable = new DataTable("#myTable", {
-	searchable: false,
-	fixedHeight: true,
-	...
-});
-```
-
-Don't forget to check the [wiki](https://github.com/Mobius1/Vanilla-DataTables/wiki) out for further help.
-
----
-
-Based on https://github.com/Mobius1/Vanilla-DataTables
