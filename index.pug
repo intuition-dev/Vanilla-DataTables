@@ -2,4 +2,13 @@ head
     include headFrag
 
 body
+    link(rel='stylesheet', href='/src/css/vanilla-dataTables.css')
+
     p oh hi
+    #myTable
+
+    script(src='/src/vanilla-dataTables.js')
+    script. 
+        var myTable = document.querySelector("#myTable")
+        console.log(myTable)
+        var dataTable = new DataTable(myTable)

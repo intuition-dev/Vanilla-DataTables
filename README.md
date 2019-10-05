@@ -3,12 +3,10 @@
 
 ---
 
-A lightweight, extendable, dependency-free javascript HTML table plugin. 
+A lightweight, extendable table plugin. 
 
+Forked from https://github.com/Mobius1/Vanilla-DataTables:
 
-Based on https://github.com/Mobius1/Vanilla-DataTables:
-
-Example: https://codepen.io/Mobius1/pen/VadmKb
 
 
 ### Quick Start
@@ -25,7 +23,7 @@ var dataTable = new DataTable("#myTable");
 
 ```
 
-You can also pass the options object as the second paramater:
+You can also pass the options object as the second parameter:
 
 ```javascript
 var dataTable = new DataTable("#myTable", {
@@ -35,7 +33,9 @@ var dataTable = new DataTable("#myTable", {
 });
 ```
 
-Don't forget to check the [wiki](https://github.com/Mobius1/Vanilla-DataTables/wiki) out for further help.
+Old example: https://codepen.io/Mobius1/pen/VadmKb
+
+Don't forget to check the [old wiki](https://github.com/Mobius1/Vanilla-DataTables/wiki).
 
 ---
 
@@ -52,14 +52,13 @@ Don't forget to check the [wiki](https://github.com/Mobius1/Vanilla-DataTables/w
 * Control column visibility
 * Reorder or swap columns
 
-* Extentable with custom plugins [See the wiki](https://github.com/Mobius1/Vanilla-DataTables/wiki/Plugins) (v1.6.0 and above)
 
 
-[Documentation](https://github.com/Mobius1/Vanilla-DataTables/wiki) | [Latest Version](https://github.com/Mobius1/Vanilla-DataTables/releases/tag/1.6.16)
+[Old Documentation](https://github.com/Mobius1/Vanilla-DataTables/wiki) 
 
 ---
 
-### Demos
+### Old Demos
 
 * [Default Setup](https://codepen.io/Mobius1/pen/VadmKb)
 * [Remote Data](https://codepen.io/Mobius1/pen/XaRepW?editors=0010)

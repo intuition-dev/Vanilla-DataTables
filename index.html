@@ -18,5 +18,13 @@
   </style>
 </head>
 <body>
+  <link rel="stylesheet" href="/src/css/vanilla-dataTables.css"/>
   <p>oh hi</p>
-<!-- mB v6.09.30 on 2019-10-05T15:07:59.003Z --></body>
+  <div id="myTable"></div>
+  <script src="/src/vanilla-dataTables.js"></script>
+  <script>
+    var myTable = document.querySelector("#myTable")
+    console.log(myTable)
+    var dataTable = new DataTable(myTable)
+  </script>
+<!-- mB v6.09.30 on 2019-10-05T15:17:26.824Z --></body>
