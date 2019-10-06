@@ -1,9 +1,12 @@
 head
     include headFrag
-    script(src='/src/vanilla-dataTables.js')
+    
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/gh/intuition-dev/intuDS@v1.0.3/src/css/min.css')
+
+    link(rel='stylesheet', href='/src/css/vanilla-dataTables.css')
 
 body
-    //link(rel='stylesheet', href='/src/css/vanilla-dataTables.css')
+    script(src='/src/vanilla-dataTables.js')
 
     p oh hi
     .container
