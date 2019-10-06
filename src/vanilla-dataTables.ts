@@ -2010,7 +2010,7 @@
 
         if (html) {
             if (typeof html === "string") {
-                var frag = doc.createDocumentFragment();
+                var frag:any = doc.createDocumentFragment();
                 frag.innerHTML = html;
             }
 
