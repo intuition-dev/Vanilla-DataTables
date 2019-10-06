@@ -287,349 +287,370 @@
         }
         return date;
     };
-    var Columns = function (dt, columuns) {
-        this.dt = dt;
-        return this;
-    };
-    Columns.prototype.swap = function (columns) {
-        if (columns.length && columns.length === 2) {
-            var cols = [];
-            each(this.dt.headings, function (h, i) {
-                cols.push(i);
-            });
-            var x = columns[0];
-            var y = columns[1];
-            var b = cols[y];
-            cols[y] = cols[x];
-            cols[x] = b;
-            this.order(cols);
+    var Columns = (function () {
+        function Columns(dt, columuns) {
+            this.dt = dt;
+            return this;
         }
-    };
-    Columns.prototype.order = function (columns) {
-        var a, b, c, d, h, s, cell, temp = [
-            [],
-            [],
-            [],
-            []
-        ], dt = this.dt;
-        each(columns, function (column, x) {
-            h = dt.headings[column];
-            s = h.getAttribute("data-sortable") !== "false";
-            a = h.cloneNode(true);
-            a.originalCellIndex = x;
-            a.sortable = s;
-            temp[0].push(a);
-            if (dt.hiddenColumns.indexOf(column) < 0) {
-                b = h.cloneNode(true);
-                b.originalCellIndex = x;
-                b.sortable = s;
-                temp[1].push(b);
+        ;
+        Columns.prototype.swap = function (columns) {
+            if (columns.length && columns.length === 2) {
+                var cols = [];
+                each(this.dt.headings, function (h, i) {
+                    cols.push(i);
+                });
+                var x = columns[0];
+                var y = columns[1];
+                var b = cols[y];
+                cols[y] = cols[x];
+                cols[x] = b;
+                this.order(cols);
             }
-        });
-        each(dt.data, function (row, i) {
-            c = row.cloneNode();
-            d = row.cloneNode();
-            c.dataIndex = d.dataIndex = i;
-            if (row.searchIndex !== null && row.searchIndex !== undefined) {
-                c.searchIndex = d.searchIndex = row.searchIndex;
-            }
+        };
+        ;
+        Columns.prototype.order = function (columns) {
+            var a, b, c, d, h, s, cell, temp = [
+                [],
+                [],
+                [],
+                []
+            ], dt = this.dt;
             each(columns, function (column, x) {
-                cell = row.cells[column].cloneNode(true);
-                cell.data = row.cells[column].data;
-                c.appendChild(cell);
+                h = dt.headings[column];
+                s = h.getAttribute("data-sortable") !== "false";
+                a = h.cloneNode(true);
+                a.originalCellIndex = x;
+                a.sortable = s;
+                temp[0].push(a);
                 if (dt.hiddenColumns.indexOf(column) < 0) {
+                    b = h.cloneNode(true);
+                    b.originalCellIndex = x;
+                    b.sortable = s;
+                    temp[1].push(b);
+                }
+            });
+            each(dt.data, function (row, i) {
+                c = row.cloneNode();
+                d = row.cloneNode();
+                c.dataIndex = d.dataIndex = i;
+                if (row.searchIndex !== null && row.searchIndex !== undefined) {
+                    c.searchIndex = d.searchIndex = row.searchIndex;
+                }
+                each(columns, function (column, x) {
                     cell = row.cells[column].cloneNode(true);
                     cell.data = row.cells[column].data;
-                    d.appendChild(cell);
-                }
+                    c.appendChild(cell);
+                    if (dt.hiddenColumns.indexOf(column) < 0) {
+                        cell = row.cells[column].cloneNode(true);
+                        cell.data = row.cells[column].data;
+                        d.appendChild(cell);
+                    }
+                });
+                temp[2].push(c);
+                temp[3].push(d);
             });
-            temp[2].push(c);
-            temp[3].push(d);
-        });
-        dt.headings = temp[0];
-        dt.activeHeadings = temp[1];
-        dt.data = temp[2];
-        dt.activeRows = temp[3];
-        dt.update();
-    };
-    Columns.prototype.hide = function (columns) {
-        if (columns.length) {
-            var dt = this.dt;
-            each(columns, function (column) {
-                if (dt.hiddenColumns.indexOf(column) < 0) {
-                    dt.hiddenColumns.push(column);
-                }
-            });
-            this.rebuild();
-        }
-    };
-    Columns.prototype.show = function (columns) {
-        if (columns.length) {
-            var index, dt = this.dt;
-            each(columns, function (column) {
-                index = dt.hiddenColumns.indexOf(column);
-                if (index > -1) {
-                    dt.hiddenColumns.splice(index, 1);
-                }
-            });
-            this.rebuild();
-        }
-    };
-    Columns.prototype.visible = function (columns) {
-        var cols, dt = this.dt;
-        columns = columns || dt.headings.map(function (th) {
-            return th.originalCellIndex;
-        });
-        if (!isNaN(columns)) {
-            cols = dt.hiddenColumns.indexOf(columns) < 0;
-        }
-        else if (isArray(columns)) {
-            cols = [];
-            each(columns, function (column) {
-                cols.push(dt.hiddenColumns.indexOf(column) < 0);
-            });
-        }
-        return cols;
-    };
-    Columns.prototype.add = function (data) {
-        var that = this, td, th = document.createElement("th");
-        if (!this.dt.headings.length) {
-            this.dt.insert({
-                headings: [data.heading],
-                data: data.data.map(function (i) {
-                    return [i];
-                })
-            });
-            this.rebuild();
-            return;
-        }
-        if (!this.dt.hiddenHeader) {
-            if (data.heading.nodeName) {
-                th.appendChild(data.heading);
+            dt.headings = temp[0];
+            dt.activeHeadings = temp[1];
+            dt.data = temp[2];
+            dt.activeRows = temp[3];
+            dt.update();
+        };
+        ;
+        Columns.prototype.hide = function (columns) {
+            if (columns.length) {
+                var dt = this.dt;
+                each(columns, function (column) {
+                    if (dt.hiddenColumns.indexOf(column) < 0) {
+                        dt.hiddenColumns.push(column);
+                    }
+                });
+                this.rebuild();
             }
-            else {
-                th.innerHTML = data.heading;
+        };
+        ;
+        Columns.prototype.show = function (columns) {
+            if (columns.length) {
+                var index, dt = this.dt;
+                each(columns, function (column) {
+                    index = dt.hiddenColumns.indexOf(column);
+                    if (index > -1) {
+                        dt.hiddenColumns.splice(index, 1);
+                    }
+                });
+                this.rebuild();
             }
-        }
-        else {
-            th.innerHTML = "";
-        }
-        this.dt.headings.push(th);
-        each(this.dt.data, function (row, i) {
-            if (data.data[i]) {
-                td = document.createElement("td");
-                if (data.data[i].nodeName) {
-                    td.appendChild(data.data[i]);
+        };
+        ;
+        Columns.prototype.visible = function (columns) {
+            var cols, dt = this.dt;
+            columns = columns || dt.headings.map(function (th) {
+                return th.originalCellIndex;
+            });
+            if (!isNaN(columns)) {
+                cols = dt.hiddenColumns.indexOf(columns) < 0;
+            }
+            else if (isArray(columns)) {
+                cols = [];
+                each(columns, function (column) {
+                    cols.push(dt.hiddenColumns.indexOf(column) < 0);
+                });
+            }
+            return cols;
+        };
+        ;
+        Columns.prototype.add = function (data) {
+            var that = this, td, th = document.createElement("th");
+            if (!this.dt.headings.length) {
+                this.dt.insert({
+                    headings: [data.heading],
+                    data: data.data.map(function (i) {
+                        return [i];
+                    })
+                });
+                this.rebuild();
+                return;
+            }
+            if (!this.dt.hiddenHeader) {
+                if (data.heading.nodeName) {
+                    th.appendChild(data.heading);
                 }
                 else {
-                    td.innerHTML = data.data[i];
+                    th.innerHTML = data.heading;
                 }
-                td.data = td.innerHTML;
-                if (data.render) {
-                    td.innerHTML = data.render.call(that, td.data, td, row);
-                }
-                row.appendChild(td);
-            }
-        });
-        if (data.type) {
-            th.setAttribute("data-type", data.type);
-        }
-        if (data.format) {
-            th.setAttribute("data-format", data.format);
-        }
-        if (data.hasOwnProperty("sortable")) {
-            th.sortable = data.sortable;
-            th.setAttribute("data-sortable", data.sortable === true ? "true" : "false");
-        }
-        this.rebuild();
-        this.dt.renderHeader();
-    };
-    Columns.prototype.remove = function (select) {
-        if (isArray(select)) {
-            select.sort(function (a, b) {
-                return b - a;
-            });
-            each(select, function (column) {
-                this.remove(column);
-            }, this);
-        }
-        else {
-            this.dt.headings.splice(select, 1);
-            each(this.dt.data, function (row) {
-                row.removeChild(row.cells[select]);
-            });
-        }
-        this.rebuild();
-    };
-    Columns.prototype.sort = function (column, direction, init) {
-        var dt = this.dt;
-        if (dt.hasHeadings && (column < 1 || column > dt.activeHeadings.length)) {
-            return false;
-        }
-        dt.sorting = true;
-        column = column - 1;
-        var dir, rows = dt.data, alpha = [], numeric = [], a = 0, n = 0, th = dt.activeHeadings[column];
-        column = th.originalCellIndex;
-        each(rows, function (tr) {
-            var cell = tr.cells[column];
-            var content = cell.hasAttribute('data-content') ? cell.getAttribute('data-content') : cell.data;
-            var num = content.replace(/(\$|\,|\s|%)/g, "");
-            if (th.getAttribute("data-type") === "date" && win.moment) {
-                var format = false, formatted = th.hasAttribute("data-format");
-                if (formatted) {
-                    format = th.getAttribute("data-format");
-                }
-                num = parseDate(content, format);
-            }
-            if (parseFloat(num) == num) {
-                numeric[n++] = {
-                    value: Number(num),
-                    row: tr
-                };
             }
             else {
-                alpha[a++] = {
-                    value: content,
-                    row: tr
-                };
+                th.innerHTML = "";
             }
-        });
-        var top, btm;
-        if (classList.contains(th, "asc") || direction == "asc") {
-            top = sortItems(alpha, -1);
-            btm = sortItems(numeric, -1);
-            dir = "descending";
-            classList.remove(th, "asc");
-            classList.add(th, "desc");
-        }
-        else {
-            top = sortItems(numeric, 1);
-            btm = sortItems(alpha, 1);
-            dir = "ascending";
-            classList.remove(th, "desc");
-            classList.add(th, "asc");
-        }
-        if (dt.lastTh && th != dt.lastTh) {
-            classList.remove(dt.lastTh, "desc");
-            classList.remove(dt.lastTh, "asc");
-        }
-        dt.lastTh = th;
-        rows = top.concat(btm);
-        dt.data = [];
-        var indexes = [];
-        each(rows, function (v, i) {
-            dt.data.push(v.row);
-            if (v.row.searchIndex !== null && v.row.searchIndex !== undefined) {
-                indexes.push(i);
-            }
-        }, dt);
-        dt.searchData = indexes;
-        this.rebuild();
-        dt.update();
-        if (!init) {
-            dt.emit("datatable.sort", column, dir);
-        }
-    };
-    Columns.prototype.rebuild = function () {
-        var a, b, c, d, dt = this.dt, temp = [];
-        dt.activeRows = [];
-        dt.activeHeadings = [];
-        each(dt.headings, function (th, i) {
-            th.originalCellIndex = i;
-            th.sortable = th.getAttribute("data-sortable") !== "false";
-            if (dt.hiddenColumns.indexOf(i) < 0) {
-                dt.activeHeadings.push(th);
-            }
-        }, this);
-        each(dt.data, function (row, i) {
-            a = row.cloneNode();
-            b = row.cloneNode();
-            a.dataIndex = b.dataIndex = i;
-            if (row.searchIndex !== null && row.searchIndex !== undefined) {
-                a.searchIndex = b.searchIndex = row.searchIndex;
-            }
-            each(row.cells, function (cell) {
-                c = cell.cloneNode(true);
-                c.data = cell.data;
-                a.appendChild(c);
-                if (dt.hiddenColumns.indexOf(cell.cellIndex) < 0) {
-                    d = cell.cloneNode(true);
-                    d.data = cell.data;
-                    b.appendChild(d);
+            this.dt.headings.push(th);
+            each(this.dt.data, function (row, i) {
+                if (data.data[i]) {
+                    td = document.createElement("td");
+                    if (data.data[i].nodeName) {
+                        td.appendChild(data.data[i]);
+                    }
+                    else {
+                        td.innerHTML = data.data[i];
+                    }
+                    td.data = td.innerHTML;
+                    if (data.render) {
+                        td.innerHTML = data.render.call(that, td.data, td, row);
+                    }
+                    row.appendChild(td);
                 }
             });
-            temp.push(a);
-            dt.activeRows.push(b);
-        });
-        dt.data = temp;
-        dt.update();
-    };
-    var Rows = function (dt, rows) {
-        this.dt = dt;
-        this.rows = rows;
-        return this;
-    };
-    Rows.prototype.build = function (row) {
-        var td, tr = createElement("tr");
-        var headings = this.dt.headings;
-        if (!headings.length) {
-            headings = row.map(function () {
-                return "";
-            });
-        }
-        each(headings, function (h, i) {
-            td = createElement("td");
-            if (!row[i] && !row[i].length) {
-                row[i] = "";
+            if (data.type) {
+                th.setAttribute("data-type", data.type);
             }
-            td.innerHTML = row[i];
-            td.data = row[i];
-            tr.appendChild(td);
-        });
-        return tr;
-    };
-    Rows.prototype.render = function (row) {
-        return row;
-    };
-    Rows.prototype.add = function (data) {
-        if (isArray(data)) {
-            var dt = this.dt;
-            if (isArray(data[0])) {
-                each(data, function (row, i) {
-                    dt.data.push(this.build(row));
+            if (data.format) {
+                th.setAttribute("data-format", data.format);
+            }
+            if (data.hasOwnProperty("sortable")) {
+                th.sortable = data.sortable;
+                th.setAttribute("data-sortable", data.sortable === true ? "true" : "false");
+            }
+            this.rebuild();
+            this.dt.renderHeader();
+        };
+        ;
+        Columns.prototype.remove = function (select) {
+            if (isArray(select)) {
+                select.sort(function (a, b) {
+                    return b - a;
+                });
+                each(select, function (column) {
+                    this.remove(column);
                 }, this);
             }
             else {
-                dt.data.push(this.build(data));
+                this.dt.headings.splice(select, 1);
+                each(this.dt.data, function (row) {
+                    row.removeChild(row.cells[select]);
+                });
             }
-            if (dt.data.length) {
-                dt.hasRows = true;
+            this.rebuild();
+        };
+        ;
+        Columns.prototype.sort = function (column, direction, init) {
+            var dt = this.dt;
+            if (dt.hasHeadings && (column < 1 || column > dt.activeHeadings.length)) {
+                return false;
+            }
+            dt.sorting = true;
+            column = column - 1;
+            var dir, rows = dt.data, alpha = [], numeric = [], a = 0, n = 0, th = dt.activeHeadings[column];
+            column = th.originalCellIndex;
+            each(rows, function (tr) {
+                var cell = tr.cells[column];
+                var content = cell.hasAttribute('data-content') ? cell.getAttribute('data-content') : cell.data;
+                var num = content.replace(/(\$|\,|\s|%)/g, "");
+                if (th.getAttribute("data-type") === "date" && win.moment) {
+                    var format = false, formatted = th.hasAttribute("data-format");
+                    if (formatted) {
+                        format = th.getAttribute("data-format");
+                    }
+                    num = parseDate(content, format);
+                }
+                if (parseFloat(num) == num) {
+                    numeric[n++] = {
+                        value: Number(num),
+                        row: tr
+                    };
+                }
+                else {
+                    alpha[a++] = {
+                        value: content,
+                        row: tr
+                    };
+                }
+            });
+            var top, btm;
+            if (classList.contains(th, "asc") || direction == "asc") {
+                top = sortItems(alpha, -1);
+                btm = sortItems(numeric, -1);
+                dir = "descending";
+                classList.remove(th, "asc");
+                classList.add(th, "desc");
+            }
+            else {
+                top = sortItems(numeric, 1);
+                btm = sortItems(alpha, 1);
+                dir = "ascending";
+                classList.remove(th, "desc");
+                classList.add(th, "asc");
+            }
+            if (dt.lastTh && th != dt.lastTh) {
+                classList.remove(dt.lastTh, "desc");
+                classList.remove(dt.lastTh, "asc");
+            }
+            dt.lastTh = th;
+            rows = top.concat(btm);
+            dt.data = [];
+            var indexes = [];
+            each(rows, function (v, i) {
+                dt.data.push(v.row);
+                if (v.row.searchIndex !== null && v.row.searchIndex !== undefined) {
+                    indexes.push(i);
+                }
+            }, dt);
+            dt.searchData = indexes;
+            this.rebuild();
+            dt.update();
+            if (!init) {
+                dt.emit("datatable.sort", column, dir);
+            }
+        };
+        ;
+        Columns.prototype.rebuild = function () {
+            var a, b, c, d, dt = this.dt, temp = [];
+            dt.activeRows = [];
+            dt.activeHeadings = [];
+            each(dt.headings, function (th, i) {
+                th.originalCellIndex = i;
+                th.sortable = th.getAttribute("data-sortable") !== "false";
+                if (dt.hiddenColumns.indexOf(i) < 0) {
+                    dt.activeHeadings.push(th);
+                }
+            }, this);
+            each(dt.data, function (row, i) {
+                a = row.cloneNode();
+                b = row.cloneNode();
+                a.dataIndex = b.dataIndex = i;
+                if (row.searchIndex !== null && row.searchIndex !== undefined) {
+                    a.searchIndex = b.searchIndex = row.searchIndex;
+                }
+                each(row.cells, function (cell) {
+                    c = cell.cloneNode(true);
+                    c.data = cell.data;
+                    a.appendChild(c);
+                    if (dt.hiddenColumns.indexOf(cell.cellIndex) < 0) {
+                        d = cell.cloneNode(true);
+                        d.data = cell.data;
+                        b.appendChild(d);
+                    }
+                });
+                temp.push(a);
+                dt.activeRows.push(b);
+            });
+            dt.data = temp;
+            dt.update();
+        };
+        ;
+        return Columns;
+    }());
+    var Rows = (function () {
+        function Rows(dt, rows) {
+            this.dt = dt;
+            this.rows = rows;
+            return this;
+        }
+        Rows.prototype.build = function (row) {
+            var td, tr = createElement("tr");
+            var headings = this.dt.headings;
+            if (!headings.length) {
+                headings = row.map(function () {
+                    return "";
+                });
+            }
+            each(headings, function (h, i) {
+                td = createElement("td");
+                if (!row[i] && !row[i].length) {
+                    row[i] = "";
+                }
+                td.innerHTML = row[i];
+                td.data = row[i];
+                tr.appendChild(td);
+            });
+            return tr;
+        };
+        ;
+        Rows.prototype.render = function (row) {
+            return row;
+        };
+        ;
+        Rows.prototype.add = function (data) {
+            if (isArray(data)) {
+                var dt = this.dt;
+                if (isArray(data[0])) {
+                    each(data, function (row, i) {
+                        dt.data.push(this.build(row));
+                    }, this);
+                }
+                else {
+                    dt.data.push(this.build(data));
+                }
+                if (dt.data.length) {
+                    dt.hasRows = true;
+                }
+                this.update();
+                dt.columns().rebuild();
+            }
+        };
+        ;
+        Rows.prototype.remove = function (select) {
+            var dt = this.dt;
+            if (isArray(select)) {
+                select.sort(function (a, b) {
+                    return b - a;
+                });
+                each(select, function (row, i) {
+                    dt.data.splice(row, 1);
+                });
+            }
+            else {
+                dt.data.splice(select, 1);
             }
             this.update();
             dt.columns().rebuild();
-        }
-    };
-    Rows.prototype.remove = function (select) {
-        var dt = this.dt;
-        if (isArray(select)) {
-            select.sort(function (a, b) {
-                return b - a;
+        };
+        ;
+        Rows.prototype.update = function () {
+            each(this.dt.data, function (row, i) {
+                row.dataIndex = i;
             });
-            each(select, function (row, i) {
-                dt.data.splice(row, 1);
-            });
-        }
-        else {
-            dt.data.splice(select, 1);
-        }
-        this.update();
-        dt.columns().rebuild();
-    };
-    Rows.prototype.update = function () {
-        each(this.dt.data, function (row, i) {
-            row.dataIndex = i;
-        });
-    };
+        };
+        ;
+        return Rows;
+    }());
     var DataTable = function (table, options) {
         this.initialized = false;
         this.options = extend(defaultConfig, options);

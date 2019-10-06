@@ -419,7 +419,10 @@
      * @param {Object} instance DataTable instance
      * @param {Mixed} columns  Column index or array of column indexes
      */
-    var Columns = function (dt, columuns?) {
+    class Columns {
+     dt
+
+    constructor (dt, columuns?) {
         this.dt = dt;
         return this;
     };
@@ -428,7 +431,7 @@
      * Swap two columns
      * @return {Void}
      */
-    Columns.prototype.swap = function (columns) {
+    swap  (columns) {
         if (columns.length && columns.length === 2) {
             var cols = [];
 
@@ -451,7 +454,7 @@
      * Reorder the columns
      * @return {Array} columns  Array of ordered column indexes
      */
-    Columns.prototype.order = function (columns) {
+    order  (columns) {
 
         var a, b, c, d, h, s, cell,
             temp = [
@@ -523,7 +526,7 @@
      * Hide columns
      * @return {Void}
      */
-    Columns.prototype.hide = function (columns) {
+    hide  (columns) {
         if (columns.length) {
             var dt = this.dt;
 
@@ -541,7 +544,7 @@
      * Show columns
      * @return {Void}
      */
-    Columns.prototype.show = function (columns) {
+    show  (columns) {
         if (columns.length) {
             var index, dt = this.dt;
 
@@ -560,7 +563,7 @@
      * Check column(s) visibility
      * @return {Boolean}
      */
-    Columns.prototype.visible = function (columns) {
+    visible (columns) {
         var cols, dt = this.dt;
 
         columns = columns || dt.headings.map(function (th) {
@@ -583,7 +586,7 @@
      * Add a new column
      * @param {Object} data
      */
-    Columns.prototype.add = function (data) {
+    add  (data) {
         var that = this,
             td, th:any = document.createElement("th");
 
@@ -652,7 +655,7 @@
      * @param  {Array|Number} select
      * @return {Void}
      */
-    Columns.prototype.remove = function (select) {
+    remove  (select) {
         if (isArray(select)) {
             // Remove in reverse otherwise the indexes will be incorrect
             select.sort(function (a, b) {
@@ -679,7 +682,7 @@
      * @param  {string} direction - asc or desc
      * @return {void}
      */
-    Columns.prototype.sort = function (column, direction, init) {
+    sort  (column, direction, init) {
 
         var dt = this.dt;
 
@@ -786,7 +789,7 @@
      * Rebuild the columns
      * @return {Void}
      */
-    Columns.prototype.rebuild = function () {
+   rebuild  () {
         var a, b, c, d, dt = this.dt,
             temp = [];
 
@@ -836,24 +839,28 @@
         dt.update();
     };
 
+}
     /**
      * Rows API
      * @param {Object} instance DataTable instance
      * @param {Array} rows
      */
-    var Rows = function (dt, rows) {
+    class Rows {
+        dt
+        rows
+        constructor (dt, rows) {
         this.dt = dt;
         this.rows = rows;
 
         return this;
-    };
+    }
 
     /**
      * Build a new row
      * @param  {Array} row
      * @return {HTMLElement}
      */
-    Rows.prototype.build = function (row) {
+    build (row) {
         var td, tr = createElement("tr");
 
         var headings = this.dt.headings;
@@ -882,7 +889,7 @@
         return tr;
     };
 
-    Rows.prototype.render = function (row) {
+    render(row) {
         return row;
     };
 
@@ -890,7 +897,7 @@
      * Add new row
      * @param {Array} select
      */
-    Rows.prototype.add = function (data) {
+    add (data) {
 
         if (isArray(data)) {
             var dt = this.dt;
@@ -920,7 +927,7 @@
      * @param  {Array|Number} select
      * @return {Void}
      */
-    Rows.prototype.remove = function (select) {
+    remove  (select) {
 
         var dt = this.dt;
 
@@ -945,11 +952,13 @@
      * Update row indexes
      * @return {Void}
      */
-    Rows.prototype.update = function () {
+   update () {
         each(this.dt.data, function (row, i) {
             row.dataIndex = i;
         });
     };
+
+    }
 
     ////////////////////
     //    MAIN LIB    //
