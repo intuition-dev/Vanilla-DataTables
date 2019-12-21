@@ -13,6 +13,9 @@ body
 
     script. 
         var table = new DataTable(".table", {
+           	searchable: false,
+            sortable: false,
+            perPage: 15,
             ajax: {
                 url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/datatable-csv.txt",
                 content: {
